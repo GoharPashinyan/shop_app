@@ -5,6 +5,8 @@ import 'register_page.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final greenColor = Color.fromRGBO(0, 102, 58, 1);
+
     return Scaffold(
       body: Stack(
         children: [
@@ -30,7 +32,7 @@ class HomePage extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: greenColor,
                       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -38,12 +40,13 @@ class HomePage extends StatelessWidget {
                       elevation: 4,
                     ),
                     child: Text(
-                      'Login',
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      'LOGIN',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
 
                   SizedBox(width: 16),
+
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -52,18 +55,19 @@ class HomePage extends StatelessWidget {
                       );
                     },
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.black,
                       padding: EdgeInsets.symmetric(horizontal: 34, vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
+                        side: BorderSide(color: greenColor, width: 2),
                       ),
                     ),
                     child: Text(
-                      'Register',
+                      'REGISTER',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                     ),
                   ),

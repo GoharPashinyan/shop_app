@@ -36,4 +36,6 @@ flutter:
     - assets/images/spirits.jpg
     - assets/images/whisky.jpg
     - assets/images/placeholder.jpg
+    - assets/images/login_illustration.png
+    - assets/images/Register-bro.png
   uses-material-design: true

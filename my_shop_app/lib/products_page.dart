@@ -135,8 +135,8 @@ class _ProductsPageState extends State<ProductsPage> {
     }
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green[800],
-        title: Text('${widget.category} Products', style: TextStyle(color: Colors.white)),
+        backgroundColor: const Color.fromRGBO(0, 102, 58, 1),
+        title: Text('${widget.category.toUpperCase()} PRODUCTS', style: TextStyle(color: Colors.white)),
         iconTheme: IconThemeData(color: Colors.white),
         actions: [
           IconButton(

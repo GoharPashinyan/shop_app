@@ -34,50 +34,68 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF006400),
-        title: Text('Register', style: TextStyle(color: Colors.white)),
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 20),
-            buildTextField(controller: usernameController, label: "Username"),
-            SizedBox(height: 20),
-            buildTextField(
-              controller: emailController,
-              label: "Email",
-              keyboardType: TextInputType.emailAddress,
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      backgroundColor: Color.fromRGBO(0, 102, 58, 1),
+      title: Text('REGISTER', style: TextStyle(color: Colors.white)),
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    body: SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(height: 20),
+          Text(
+            'Hello,\nRegister to get started.',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
             ),
-            SizedBox(height: 20),
-            buildTextField(
-              controller: passwordController,
-              label: "Password",
-              obscureText: true,
-            ),
-            SizedBox(height: 30),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF006400),
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 20),
+          Image.asset(
+            'assets/images/Register-bro.png',
+            height: 200,
+          ),
+          SizedBox(height: 20),
+          buildTextField(controller: usernameController, label: "Username"),
+          SizedBox(height: 20),
+          buildTextField(
+            controller: emailController,
+            label: "Email",
+            keyboardType: TextInputType.emailAddress,
+          ),
+          SizedBox(height: 20),
+          buildTextField(
+            controller: passwordController,
+            label: "Password",
+            obscureText: true,
+          ),
+          SizedBox(height: 30),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color.fromRGBO(0, 102, 58, 1),
+              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
-              onPressed: () => registerUser(),
-              child: Text('Register'),
             ),
-          ],
-        ),
+            onPressed: () => registerUser(),
+            child: Text(
+              'Register',
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget buildTextField({
     required TextEditingController controller,

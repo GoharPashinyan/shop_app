@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'beacon_scanner.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,6 +12,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
+
+  final Color mainGreen = Color.fromRGBO(0, 102, 58, 1);
 
   Future<void> loginUser() async {
     setState(() {
@@ -42,24 +43,14 @@ class _LoginPageState extends State<LoginPage> {
         }),
       );
 
-      debugPrint("Response Status Code: ${response.statusCode}");
-      debugPrint("Response Body: ${response.body}");
-
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
 
-        debugPrint("Decoded Response: $responseData");
-
         if (responseData["success"]) {
-          int userId = responseData["user_id"];
-          String username = responseData["username"];
-
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setInt('user_id', userId);
-          await prefs.setString('username', username);
+          await prefs.setInt('user_id', responseData["user_id"]);
+          await prefs.setString('username', responseData["username"]);
           await prefs.setBool('isLoggedIn', true);
-
-          login();
 
           showSnackBar("Հաջող մուտք! Տեղափոխվում է...");
 
@@ -90,55 +81,112 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF006400),
-        title: Text('Login', style: TextStyle(color: Colors.white)),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/');
-          },
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: 20),
-            buildTextField(controller: usernameController, label: "Username"),
-            SizedBox(height: 20),
-            buildTextField(controller: passwordController, label: "Password", obscureText: true),
-            SizedBox(height: 30),
-            isLoading
-                ? CircularProgressIndicator()
-                : ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF006400),
-                      foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: loginUser,
-                    child: Text('Login'),
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          Container(
+            color: mainGreen,
+            height: 80,
+            padding: EdgeInsets.only(left: 10, right: 20),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                SizedBox(width: 10),
+                Text(
+                  "LOGIN",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
                   ),
-          ],
-        ),
+                ),
+              ],
+            ),
+          ),
+
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                children: [
+                  SizedBox(height: 20),
+                  Text(
+                    'Hello,\nWelcome back!',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20),
+                  Image.asset(
+                    'assets/images/login_illustration.png',
+                    height: 250,
+                  ),
+                  SizedBox(height: 30),
+                  buildInputField(
+                    controller: usernameController,
+                    hintText: "User Name",
+                  ),
+                  SizedBox(height: 20),
+                  buildInputField(
+                    controller: passwordController,
+                    hintText: "Password",
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 30),
+                  isLoading
+                      ? CircularProgressIndicator()
+                      : SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: loginUser,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainGreen,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                  SizedBox(height: 30),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget buildTextField({required TextEditingController controller, required String label, bool obscureText = false}) {
+  Widget buildInputField({
+    required TextEditingController controller,
+    required String hintText,
+    bool obscureText = false,
+  }) {
     return TextField(
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(),
+        hintText: hintText,
         filled: true,
         fillColor: Colors.grey[200],
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
       ),
     );
   }

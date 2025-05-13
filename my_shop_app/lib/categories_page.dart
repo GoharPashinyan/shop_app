@@ -13,6 +13,7 @@ class CategoriesPage extends StatefulWidget {
 class _CategoriesPageState extends State<CategoriesPage> {
   List<String> categories = [];
   bool isLoading = true;
+  final Color greenColor = Color.fromRGBO(0, 102, 58, 1);
 
   @override
   void initState() {
@@ -67,9 +68,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green[800],
+          backgroundColor: greenColor,
           automaticallyImplyLeading: false,
-          title: Text('Categories', style: TextStyle(color: Colors.white)),
+          title: Text(
+            'CATEGORIES',
+            style: TextStyle(color: Colors.white),
+          ),
           actions: [
             IconButton(
               icon: Icon(Icons.shopping_cart, color: Colors.white),
@@ -89,7 +93,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
           ],
         ),
         body: isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: CircularProgressIndicator(color: greenColor))
             : categories.isEmpty
                 ? Center(child: Text("No categories found", style: TextStyle(fontSize: 18)))
                 : GridView.builder(
@@ -122,30 +126,33 @@ class _CategoriesPageState extends State<CategoriesPage> {
           );
         },
         child: Column(
-  crossAxisAlignment: CrossAxisAlignment.center,
-  children: [
-    Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-          image: DecorationImage(
-            image: AssetImage('assets/images/${categoryName.toLowerCase().replaceAll(' ', '_')}.jpg'),
-            fit: BoxFit.cover,
-          ),
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/${categoryName.toLowerCase().replaceAll(' ', '_')}.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                categoryName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(
-        categoryName,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      ),
-    ),
-  ],
-),
-
       ),
     );
   }
