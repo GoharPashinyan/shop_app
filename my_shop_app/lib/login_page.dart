@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'beacon_scanner.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,6 +15,21 @@ class _LoginPageState extends State<LoginPage> {
   bool isLoading = false;
 
   final Color mainGreen = Color.fromRGBO(0, 102, 58, 1);
+
+  @override
+  void initState() {
+    super.initState();
+    checkIfLoggedIn();
+  }
+
+  Future<void> checkIfLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isLoggedIn = prefs.getBool('isLoggedIn');
+
+    if (isLoggedIn != null && isLoggedIn) {
+      Navigator.pushReplacementNamed(context, '/categories');
+    }
+  }
 
   Future<void> loginUser() async {
     setState(() {
@@ -53,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
           await prefs.setBool('isLoggedIn', true);
 
           showSnackBar("Հաջող մուտք! Տեղափոխվում է...");
-
+          login(); // Beacon սկանավորում
           Future.delayed(Duration(seconds: 1), () {
             Navigator.pushReplacementNamed(context, '/categories');
           });

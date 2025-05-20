@@ -9,6 +9,9 @@ bool isLoggedIn = false;
 StreamSubscription<List<ScanResult>>? scanSubscription;
 
 void startBeaconScan() async {
+  final prefs = await SharedPreferences.getInstance();
+  final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
   if (!isLoggedIn) {
     print("⚠️ Օգտատերը մուտք չի գործել․ Beacon սկան չի արվում");
     return;
@@ -60,6 +63,7 @@ void startBeaconScan() async {
     Future.delayed(Duration(minutes: 1), startBeaconScan);
   });
 }
+
 
 void fetchProductsAndNotify() async {
   print("🌐 Ուղարկում ենք հարցում backend-ին...");

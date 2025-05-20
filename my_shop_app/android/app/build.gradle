@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.my_shop_app"
-        minSdkVersion 21  // Համոզվեք, որ սա բավարար է ձեր ծրագրի պահանջներին
+        minSdkVersion 23  // Համոզվեք, որ սա բավարար է ձեր ծրագրի պահանջներին
         targetSdkVersion 33
         versionCode flutter.versionCode
         versionName flutter.versionName
