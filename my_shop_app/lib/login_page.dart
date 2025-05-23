@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'beacon_scanner.dart';
+import 'package:flutter/services.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,12 +12,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  static const platform = MethodChannel('com.example.beacon/foreground');
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
 
   final Color mainGreen = Color.fromRGBO(0, 102, 58, 1);
-
+ Future<void> startForegroundService() async {
+  try {
+    print("Starting foreground service...");
+    await platform.invokeMethod('startForegroundService');
+    print("Foreground service started.");
+  } on PlatformException catch (e) {
+    print("Failed to start foreground service: '${e.message}'");
+  } catch (e) {
+    print("Other error in startForegroundService: $e");
+  }
+}
   @override
   void initState() {
     super.initState();
@@ -69,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
           await prefs.setBool('isLoggedIn', true);
 
           showSnackBar("Հաջող մուտք! Տեղափոխվում է...");
+          await startForegroundService();
           login(); // Beacon սկանավորում
           Future.delayed(Duration(seconds: 1), () {
             Navigator.pushReplacementNamed(context, '/categories');

@@ -40,3 +40,8 @@ android {
 flutter {
     source = "../../"  // Համոզվեք, որ այս տեղադրումը ճիշտ է ձեր Flutter SDK-ի համար
 }
+
+dependencies {
+    // Ավելացրու սա (եթե չկա արդեն)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+}

@@ -50,12 +50,10 @@
         </activity>
 
         <!-- Ֆոնային ծառայությունը -->
-        <service
-            android:name=".BeaconScanService"
-            android:enabled="true"
+         <service
+            android:name=".MyForegroundService"
             android:exported="false"
-            android:foregroundServiceType="location" />
-
+            android:foregroundServiceType="location|connectedDevice" />
 
         <meta-data
             android:name="flutterEmbedding"
